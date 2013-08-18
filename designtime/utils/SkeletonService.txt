@@ -1,0 +1,107 @@
+package com.riverstone.between.service;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+
+import org.springframework.flex.remoting.RemotingDestination;
+import org.springframework.flex.remoting.RemotingInclude;
+import org.springframework.stereotype.Service;
+
+import com.riverstone.between.dao.RiverStoneDAO;
+import com.riverstone.between.vo.Result;
+
+
+@Service
+@RemotingDestination
+public class ##SERVICE##Service {
+	final static boolean DEBUG = true;
+	
+	@RemotingInclude
+	public ##RESULT## ##METHOD##(##PARAMS##) {
+		if(DEBUG) System.out.println("##METHOD## STARTED: ##PARAMS_PRINT##);
+		##RESULT## result = new ##RESULT##();
+
+		RiverStoneDAO dao = null;
+		try {
+			dao = RiverStoneDAO.getInstance();
+		}
+		catch(Throwable e) {
+			e.printStackTrace();
+			result.setIsSuccessful(false);
+			result.setReturnMessage("##METHOD## 실패: " + e.toString());
+			return result;
+		}
+
+		try {
+			dao.beginTransaction();
+
+			HashMap params = new HashMap();
+			params.put("##PARAM1##", ##PARAM1##);
+			params.put("##PARAM2##", ##PARAM2##);
+			
+			List<##RECORD##> rs = dao.queryForList("##SQL##", params);
+			Iterator<##RECORD##> it = rs.iterator();
+			while(it.hasNext()) {
+				##RECORD## rec = it.next();
+				if(DEBUG) System.out.println(rec);
+
+				result.getResultArray().add(rec);
+			}
+			
+			dao.commitTransaction();
+		} 
+		catch (Throwable e) {
+			e.printStackTrace();
+			result.setIsSuccessful(false);
+			result.setReturnMessage("##METHOD## 실패: " + e.toString());
+			return result;
+		}
+		finally {
+			try {
+				dao.endTransaction();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				result.setIsSuccessful(false);
+				result.setReturnMessage("##METHOD## 실패: " + e.toString());
+				return result;
+			}
+		}
+		
+		result.setIsSuccessful(true);
+		result.setReturnMessage("##METHOD## 성공");
+
+		if(DEBUG) System.out.println("*** ##METHOD## 성공");
+		
+		return result;
+	}
+}
+
+
+package com.riverstone.between.vo;
+
+import java.util.ArrayList;
+
+public class ##RESULT## extends Result {
+	private ArrayList<##RECORD##> resultArray = new ArrayList<##RECORD##>();
+
+	public ArrayList<##RECORD##> getResultArray() {
+		return resultArray;
+	}
+
+	public void setResultArray(ArrayList<##RECORD##> resultArray) {
+		this.resultArray = resultArray;
+	}
+
+	public static class ##RECORD## {
+		//	함수: https://docs.google.com/spreadsheet/ccc?key=0Ap6dZKp2uO2UdDFXRG51NldoYjVTazRGS2RPRkg5NVE#gid=1
+		//	화면: https://docs.google.com/spreadsheet/ccc?key=0Ap6dZKp2uO2UdDFXRG51NldoYjVTazRGS2RPRkg5NVE#gid=2
+		//	DB: https://docs.google.com/spreadsheet/ccc?key=0Ap6dZKp2uO2UdFNTR2R6c1ZJcnMyaTI2c1JJSFZ4c1E#gid=2
+		//		https://docs.google.com/spreadsheet/ccc?key=0Ap6dZKp2uO2UdFNTR2R6c1ZJcnMyaTI2c1JJSFZ4c1E#gid=6
+		//
+	
+		//	Table
+	}
+}
+
+

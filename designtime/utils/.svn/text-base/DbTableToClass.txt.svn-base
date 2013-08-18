@@ -1,0 +1,23 @@
+	<select id="##METHOD##" resultClass="com.riverstone.between.vo.##RESULT##$##RECORD##"
+			parameterClass="java.util.HashMap">
+		select * from ##SCHEMA##.##TABLE##
+		where 
+		<isNotNull property="##PARAM1##">
+			##FIELD1##=###PARAM1###
+		</isNotNull>
+	</select>
+
+	<insert id="##METHOD##" parameterClass="com.riverstone.between.vo.##RESULT##$##RECORD##">
+		INSERT INTO ##SCHEMA##.##TABLE## (
+			##FIELDS##
+		)
+		values (
+			##HASH_FIELDS##
+		)
+	</insert>
+
+	<update id="##METHOD##" parameterClass="com.riverstone.between.vo.##RESULT##$##RECORD##">
+		UPDATE ##SCHEMA##.##TABLE## SET
+		##UPDATE_FIELDS##
+		WHERE ##FIELD1##=###PARAM1###
+	</update>
